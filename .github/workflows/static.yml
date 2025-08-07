@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прайс-лист кондитерской</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFF0F3 50%, #FFDDE1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Декоративные элементы фона */
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.05;
+            background: #FF6B9D;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .bg-decoration:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: -100px;
+            right: -100px;
+        }
+
+        .bg-decoration:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -5s;
+        }
+
+        .bg-decoration:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            right: -75px;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Основной контейнер */
+        .price-container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Заголовок */
+        .header {
+            background: linear-gradient(135deg, #FF6B9D 0%, #C9184A 100%);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 16px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* Секции */
+        .section {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            color: #C9184A;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '✨';
+            font-size: 24px;
+        }
+
+        /* Элементы меню */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,107,157,0.1) 0%, rgba(255,193,7,0.1) 100%);
+            transition: width 0.3s ease;
+        }
+
+        .menu-item:hover::before {
+            width: 100%;
+        }
+
+        .menu-item:hover {
+            transform: translateX(5px);
+        }
+
+        .menu-item:nth-child(even) {
+            background: rgba(255, 229, 229, 0.3);
+        }
+
+        .menu-item.special {
+            background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,107,157,0.1) 100%);
+            border: 1px solid rgba(255,107,157,0.2);
+        }
+
+        .item-name {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .item-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #C9184A;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Капкейки карточка */
+        .cupcake-card {
+            background: linear-gradient(135deg, #FFC107 0%, #FF6B9D 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(255,107,157,0.3);
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .cupcake-card:hover {
+            transform: scale(1.02);
+        }
+
+        .cupcake-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .cupcake-card p {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Специальное предложение */
+        .special-offer {
+            background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(255,193,7,0.1) 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #FF6B9D;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .special-offer::before {
+            content: '❤️';
+            position: absolute;
+            font-size: 80px;
+            opacity: 0.1;
+            right: -20px;
+            top: -20px;
+            transform: rotate(-15deg);
+        }
+
+        .special-offer p {
+            color: #C9184A;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Контакты */
+        .contact {
+            background: #C9184A;
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .contact-phone {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .contact-phone::before {
+            content: '📱';
+            font-size: 28px;
+        }
+
+        .contact-name {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Анимация появления */
+        .menu-item, .cupcake-card, .special-offer {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-item:nth-child(1) { animation-delay: 0.1s; }
+        .menu-item:nth-child(2) { animation-delay: 0.2s; }
+        .menu-item:nth-child(3) { animation-delay: 0.3s; }
+        .menu-item:nth-child(4) { animation-delay: 0.4s; }
+        .menu-item:nth-child(5) { animation-delay: 0.5s; }
+        .menu-item:nth-child(6) { animation-delay: 0.6s; }
+        .menu-item:nth-child(7) { animation-delay: 0.7s; }
+        .menu-item:nth-child(8) { animation-delay: 0.8s; }
+
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .menu-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .item-price {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Декоративные элементы фона -->
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+
+    <div class="price-container">
+        <!-- Заголовок -->
+        <header class="header">
+            <h1>PRICE</h1>
+            <p class="subtitle">Сладкие шедевры для вас</p>
+        </header>
+
+        <!-- Начинки тортов -->
+        <section class="section">
+            <h2 class="section-title">Начинки тортов</h2>
+
+            <div class="menu-item">
+                <span class="item-name">Красный бархат</span>
+                <span class="item-price">1500 ₽/кг</span>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Вупи-Пай</span>
+                <span class="item-price">1600 ₽/кг</span>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Молочная/карамельная девочка</span>
+                <span class="item-price">1700 ₽/кг</span>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Медовый</span>
+                <span class="item-price">1700 ₽/кг</span>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Сникерс</span>
+                <span class="item-price">1500 ₽/кг</span>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Шоколадно-арахисовый</span>
+                <span class="item-price">1500 ₽/кг</span>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Шоколадный</span>
+                <span class="item-price">1500 ₽/кг</span>
+            </div>
+
+            <div class="menu-item special">
+                <span class="item-name">🎂 Бенто (начинка на ваш вкус)</span>
+                <span class="item-price">1500 ₽/шт</span>
+            </div>
+        </section>
+
+        <!-- Рулеты -->
+        <section class="section">
+            <h2 class="section-title">Рулеты</h2>
+
+            <div class="menu-item">
+                <span class="item-name">Меренговый рулет</span>
+                <span class="item-price">1500 ₽/шт</span>
+            </div>
+
+            <div class="menu-item">
+                <span class="item-name">Бисквитный шоколадный рулет</span>
+                <span class="item-price">1200 ₽/шт</span>
+            </div>
+        </section>
+
+        <!-- Капкейки -->
+        <section class="section">
+            <div class="cupcake-card">
+                <h3>🧁 Капкейки</h3>
+                <p>200 ₽/шт</p>
+                <small>Начинка на ваш вкус</small>
+            </div>
+
+            <!-- Специальное предложение -->
+            <div class="special-offer">
+                <p>Готова экспериментировать с начинками<br>
+                и постараюсь воплотить<br>
+                любые ваши пожелания по декору</p>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <footer class="contact">
+            <div class="contact-phone">+7 (927) 084-08-74</div>
+            <div class="contact-name">Гульнара (WhatsApp, Telegram)</div>
+        </footer>
+    </div>
+
+    <script>
+        // Добавляем интерактивность
+        document.addEventListener('DOMContentLoaded', function() {
+            // Плавное появление элементов при прокрутке
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, observerOptions);
+
+            // Наблюдаем за всеми элементами меню
+            document.querySelectorAll('.menu-item, .cupcake-card, .special-offer').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+
+            // Эффект при клике на элементы меню
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Создаем эффект пульсации
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+
+                    // Копируем цену в буфер обмена
+                    const price = this.querySelector('.item-price').textContent;
+                    const name = this.querySelector('.item-name').textContent;
+
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(`${name} - ${price}`).then(() => {
+                            // Показываем уведомление
+                            showNotification('Скопировано в буфер обмена!');
+                        });
+                    }
+                });
+            });
+
+            // Функция показа уведомления
+            function showNotification(text) {
+                const notification = document.createElement('div');
+                notification.textContent = text;
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #C9184A;
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 50px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    animation: slideUp 0.3s ease;
+                `;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.animation = 'slideDown 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }, 2000);
+            }
+
+            // Добавляем анимации для уведомлений
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideUp {
+                    from { transform: translate(-50%, 100%); opacity: 0; }
+                    to { transform: translate(-50%, 0); opacity: 1; }
+                }
+                @keyframes slideDown {
+                    from { transform: translate(-50%, 0); opacity: 1; }
+                    to { transform: translate(-50%, 100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Эффект параллакса для декоративных элементов
+            document.addEventListener('mousemove', (e) => {
+                const decorations = document.querySelectorAll('.bg-decoration');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+
+                decorations.forEach((dec, index) => {
+                    const speed = (index + 1) * 20;
+                    dec.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
